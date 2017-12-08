@@ -1,0 +1,22 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <style name="CurrencyClickedStyle">
+        <item name="android:background">@drawable/currency_clicked_style</item>
+    </style>
+    <style name="RoundButtonClickedStyle">
+        <item name="android:background">@drawable/convert_clicked_style</item>
+    </style>
+    <style name="GreenButtonClickedStyle">
+        <item name="android:background">@drawable/all_currency_green_style</item>
+    </style>
+    <style name="OrangeButtonClickedStyle">
+        <item name="android:background">@drawable/all_currency_orange_style</item>
+    </style>
+</resources>

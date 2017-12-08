@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="vn.quankundeptrai.bitcoinconverter.UI.Main.MainActivity"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:background="#000000"
+    android:gravity="center">
+    <RelativeLayout
+        android:id="@+id/allCurrencyInput"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="10dp"
+        style="@style/GreenButtonClickedStyle"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+        <TextView
+            android:id="@+id/currencyInputCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BTC"
+            android:textStyle="bold"
+            android:layout_marginRight="20dp"
+            android:textSize="20sp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/mainGreen"
+            />
+        <TextView
+            android:id="@+id/currencyInputName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bitcoin"
+            android:layout_toRightOf="@id/currencyInputCode"
+            android:textSize="20sp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/mainGreen"
+            />
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/drop_down_green"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+    <EditText
+        android:id="@+id/currencyInput"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:inputType="numberDecimal"
+        android:background="@drawable/dialog_border_black"
+        android:layout_marginBottom="32dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textSize="@dimen/big_text"
+        android:textCursorDrawable = "@null"
+        android:textColor="@color/mainGreen"/>
+
+    <RelativeLayout
+        android:id="@+id/convert"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        style="@style/RoundButtonClickedStyle"
+        android:layout_gravity="center"
+        android:layout_marginBottom="32dp">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/two_way_arrows"
+            android:layout_centerInParent="true"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/allCurrencyOutput"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="10dp"
+        style="@style/OrangeButtonClickedStyle"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+
+        <TextView
+            android:id="@+id/currencyOutputCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:text="USD"
+            android:textColor="@color/mainOrange"
+            android:textSize="20sp"
+            android:layout_centerVertical="true"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/currencyOutputName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/currencyOutputCode"
+            android:text="US dollar"
+            android:textColor="@color/mainOrange"
+            android:textSize="20sp"
+            android:layout_centerVertical="true"
+            />
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/drop_down_orange" />
+    </RelativeLayout>
+    <EditText
+        android:id="@+id/currencyOutput"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:inputType="none"
+        android:background="@drawable/dialog_border_black"
+        android:layout_marginBottom="32dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textCursorDrawable="@null"
+        android:textColor="@color/mainOrange"
+        android:textSize="@dimen/big_text"/>
+
+    <RelativeLayout
+        android:id="@+id/share"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        style="@style/RoundButtonClickedStyle"
+        android:layout_gravity="center">
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:gravity="center"
+            android:src="@drawable/share"
+            android:layout_centerInParent="true"
+            />
+    </RelativeLayout>
+
+</LinearLayout>
