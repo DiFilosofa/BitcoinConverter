@@ -60,4 +60,13 @@ public class CurrencyCodeAdapter extends RecyclerView.Adapter<CurrencyCodeAdapte
             currencyItem = itemView.findViewById(R.id.currency_item);
         }
     }
+
+    public void updateList(ArrayList<Pair<String,String>> newList){
+        this.currencyCodes = newList;
+        notifyDataSetChanged();
+    }
+
+    public ArrayList<Pair<String,String>> getCodeList(){
+        return this.currencyCodes;
+    }
 }

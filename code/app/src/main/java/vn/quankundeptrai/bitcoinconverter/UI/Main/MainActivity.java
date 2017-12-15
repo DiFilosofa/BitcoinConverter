@@ -23,16 +23,19 @@ import static vn.quankundeptrai.bitcoinconverter.Constants.MainConstants.CODE_KE
 import static vn.quankundeptrai.bitcoinconverter.Constants.MainConstants.INPUT_CODE;
 import static vn.quankundeptrai.bitcoinconverter.Constants.MainConstants.NAME_KEY;
 import static vn.quankundeptrai.bitcoinconverter.Constants.MainConstants.OUTPUT_CODE;
+import static vn.quankundeptrai.bitcoinconverter.Utils.MainUtils.hideKeyboard;
 import static vn.quankundeptrai.bitcoinconverter.Utils.MainUtils.initRetrofit;
+import static vn.quankundeptrai.bitcoinconverter.Utils.MainUtils.isNetworkOnline;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, ApiConvertResults {
     private TextView inputCurrencyCode, outputCurrencyCode, inputCurrencyName, outputCurrencyName;
     private EditText input, output;
     private ApiInterface apiInterface;
     private ProgressDialog progressDialog;
+    private View convert;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        View selectInputCurrency, selectOutputCurrency, convert, share;
+        View selectInputCurrency, selectOutputCurrency, share;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -62,29 +65,55 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.allCurrencyInput:
+                if(!isNetworkOnline(this)){
+                    Toast.makeText(this, "No Internet connection", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent inputMoney = new Intent(this,CurrencySelectActivity.class);
                 startActivityForResult(inputMoney, INPUT_CODE);
                 break;
 
             case R.id.allCurrencyOutput:
+                if(!isNetworkOnline(this)){
+                    Toast.makeText(this, "No Internet connection", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent outputMoney = new Intent(this, CurrencySelectActivity.class);
                 startActivityForResult(outputMoney, OUTPUT_CODE);
                 break;
 
             case R.id.share:
+                Intent sendIntent = new Intent();
+                String inputText = input.getText().toString();
+                String outputText = output.getText().toString();
+                if(inputText.isEmpty() || outputText.isEmpty()){
+                    Toast.makeText(this, "Please convert something to share", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT,
+                        String.format("Today %s %s equals %s %s",
+                                inputText,
+                                inputCurrencyCode.getText().toString(),
+                                outputText,
+                                outputCurrencyCode.getText().toString()));
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
                 break;
 
             case R.id.convert:
-                String userInput = input.getText().toString();
-                if(userInput.isEmpty()){
-                    Toast.makeText(this, "Please input value to convert!", Toast.LENGTH_SHORT).show();
+                if(!isNetworkOnline(this)){
+                    Toast.makeText(this, "No Internet connection", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                progressDialog = ProgressDialog.show(this, "","Converting...");
-                String currencyCodes = String.format(
-                        Locale.US,"%s_%s",inputCurrencyCode.getText().toString(),outputCurrencyCode.getText().toString());
+                if(!input.getText().toString().isEmpty()) {
+                    hideKeyboard(this);
+                    progressDialog = ProgressDialog.show(this, "", "Converting...");
+                    String currencyCodes = String.format(
+                            Locale.US, "%s_%s", inputCurrencyCode.getText().toString(), outputCurrencyCode.getText().toString());
 
-                new ApiConvertExecuter(this, apiInterface).execute(currencyCodes);
+                    new ApiConvertExecuter(this, apiInterface).execute(currencyCodes);
+                }
                 break;
         }
     }
@@ -112,11 +141,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 case INPUT_CODE:
                     inputCurrencyCode.setText(data.getStringExtra(CODE_KEY));
                     inputCurrencyName.setText(data.getStringExtra(NAME_KEY));
+                    convert.performClick();
                     break;
 
                 case OUTPUT_CODE:
                     outputCurrencyCode.setText(data.getStringExtra(CODE_KEY));
                     outputCurrencyName.setText(data.getStringExtra(NAME_KEY));
+                    convert.performClick();
                     break;
             }
         }

@@ -6,7 +6,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Pair;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 
@@ -23,21 +27,24 @@ import static vn.quankundeptrai.bitcoinconverter.Utils.MainUtils.initRetrofit;
  * Created by TQN on 12/8/2017.
  */
 
-public class CurrencySelectActivity extends AppCompatActivity implements RecyclerViewItemSelectInterface,ApiGetCurrenciesResults {
-    private ApiInterface apiInterface;
+public class CurrencySelectActivity extends AppCompatActivity implements RecyclerViewItemSelectInterface,ApiGetCurrenciesResults, TextWatcher {
     private RecyclerView currenciesList;
     private ProgressDialog progressDialog;
+    private CurrencyCodeAdapter currencyCodeAdapter;
+    private ArrayList<Pair<String,String>> currencyCodes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.currency_select);
 
         currenciesList = findViewById(R.id.currency_code_list);
+        EditText codeSearch = findViewById(R.id.code_search);
+        codeSearch.addTextChangedListener(this);
         currenciesList.setLayoutManager(new LinearLayoutManager(this));
         progressDialog = ProgressDialog.show(this,"","Loading currencies list");
-        this.apiInterface = initRetrofit();
+        ApiInterface apiInterface = initRetrofit();
 
-        new ApiGetCountryExecuter(this,apiInterface).execute("");
+        new ApiGetCountryExecuter(this, apiInterface).execute("");
     }
 
     @Override
@@ -51,7 +58,35 @@ public class CurrencySelectActivity extends AppCompatActivity implements Recycle
 
     @Override
     public void onFinishGetCurrencies(ArrayList<Pair<String,String>> results) {
-        currenciesList.setAdapter(new CurrencyCodeAdapter(results,this));
+        currencyCodes = results;
+        currencyCodeAdapter = new CurrencyCodeAdapter(results,this);
+        currenciesList.setAdapter(currencyCodeAdapter);
         progressDialog.hide();
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        currencyCodeAdapter.updateList(queryCodes(s));
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
+
+    private ArrayList<Pair<String,String>> queryCodes(CharSequence input){
+        ArrayList<Pair<String,String>> result = new ArrayList<>();
+
+        for (Pair<String,String> item : currencyCodes){
+            if(item.first.contains(input.toString().toUpperCase())){
+                result.add(item);
+            }
+        }
+        return result;
     }
 }
